@@ -1,0 +1,25 @@
+/* Minimal button styles */
+.buttons-root {
+	display: flex;
+	gap: 10px;
+	justify-content: flex-end;
+}
+
+.btn {
+	padding: 8px 12px;
+	border-radius: 8px;
+	border: 2px solid #222;
+	background: white;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.btn.primary {
+	background: #222;
+	color: #fff;
+}
+
+.btn.secondary {
+	background: transparent;
+	color: #222;
+}

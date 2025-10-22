@@ -1,0 +1,43 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #213b70; /* header background */
+  padding: 12px 20px;
+  border-bottom: 2px solid #e5e7eb;
+  gap: 12px; /* reduce space between items */
+  z-index: 900;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* closer buttons */
+}
+
+/* 🖤 Both buttons share the same style */
+.header-button,
+.header-settings {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e8eaf0; /* black text */
+  cursor: pointer;
+  transition: color 0.3s ease; /* smooth hover transition */
+}
+
+/* 💙 Hover turns blue */
+.header-button:hover,
+.header-settings:hover {
+  color: #d9dde7; /* blue on hover */
+}

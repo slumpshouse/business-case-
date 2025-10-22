@@ -1,0 +1,68 @@
+/* Styles for the Resume page - extracted from inline styles */
+.resume-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.resume-card {
+  width: 90vw;
+  max-width: 1200px;
+  max-height: 90vh;
+  border: 3px solid #222;
+  border-radius: 22px;
+  padding: 24px;
+  box-sizing: border-box;
+  background: #fff;
+  overflow-y: auto;
+}
+
+.resume-header {
+  text-align: center;
+  font-size: 20px;
+  padding: 18px 6px;
+  border-bottom: 2px solid #222;
+  border-radius: 18px 18px 0 0;
+  margin-bottom: 12px;
+}
+
+.resume-textarea-outer {
+  border: 2px solid #222;
+  border-radius: 14px;
+  padding: 14px;
+  min-height: 260px;
+  background: #f7f5f5;
+  margin-bottom: 18px;
+}
+
+.resume-textarea-outer textarea {
+  width: 100%;
+  height: 240px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  font-size: 16px;
+  font-family: inherit;
+  color: #213b70; /* dark blue for better visibility */
+  line-height: 1.5;
+}
+
+.resume-textarea-outer textarea::placeholder {
+  color: #6b7280; /* darker gray for better contrast */
+}
+
+.resume-tips {
+  border: 2px solid #222;
+  border-radius: 14px;
+  padding: 14px;
+  min-height: 120px;
+  background: #fff;
+}
+
+.resume-actions {
+  margin-top: 12px;
+}

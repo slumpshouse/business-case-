@@ -1,0 +1,10 @@
+.jobs-landing {
+  padding: 100px 24px 24px; /* account for fixed header */
+  max-width: 800px;
+  margin: 0 auto;
+  color: #ffffff;
+}
+
+.jobs-landing h1 { font-size: 28px; margin-bottom: 12px; }
+.jobs-landing p { color: #d1d5db; margin-bottom: 18px; }
+.jobs-landing .go-jobs { padding: 10px 18px; border-radius: 8px; cursor: pointer; }
