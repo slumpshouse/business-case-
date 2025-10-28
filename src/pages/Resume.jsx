@@ -1,15 +1,24 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import Buttons from "../components/Buttons";
 import "../css/Resume.css";
 
 function Resume() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]); // ✅ added
   const [input, setInput] = useState("");       // ✅ added
-  const navigate = useNavigate();
+
+  // Load resume text from navigation state if available
+  useEffect(() => {
+    if (location.state?.resumeText) {
+      setText(location.state.resumeText);
+    }
+  }, [location.state]);
 
   // 🔍 Handle resume analysis directly via OpenAI (structured JSON result)
   const handleAnalyze = async () => {
@@ -78,13 +87,13 @@ function Resume() {
       }
 
       if (parsed && typeof parsed === "object") {
-        navigate("/analysis", { state: { result: parsed } });
+        navigate("/analysis", { state: { result: parsed, resumeText: text } });
       } else {
-        navigate("/analysis", { state: { result: content || "No response from AI." } });
+        navigate("/analysis", { state: { result: content || "No response from AI.", resumeText: text } });
       }
     } catch (err) {
       console.error(err);
-      navigate("/analysis", { state: { result: "Error analyzing resume." } });
+      navigate("/analysis", { state: { result: "Error analyzing resume.", resumeText: text } });
     } finally {
       setLoading(false);
     }
@@ -166,19 +175,36 @@ function Resume() {
           
           <div style={{ marginTop: 16 }}>
             <button 
-              onClick={() => navigate(-1)} 
+              onClick={() => navigate('/home')} 
               style={{ 
-                padding: '10px 20px', 
+                padding: '12px 24px', 
                 cursor: 'pointer',
-                border: '3px solid #222',
-                borderRadius: '20px',
-                background: '#fff',
+                border: '2px solid rgba(102, 126, 234, 0.3)',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.8) 100%)',
+                backdropFilter: 'blur(10px)',
                 fontSize: '16px',
-                fontWeight: '500',
-                whiteSpace: 'nowrap'
+                fontWeight: '600',
+                fontFamily: 'Inter, system-ui, sans-serif',
+                color: '#667eea',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 4px 15px rgba(102, 126, 234, 0.2)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)';
+                e.target.style.borderColor = 'rgba(102, 126, 234, 0.5)';
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.8) 100%)';
+                e.target.style.borderColor = 'rgba(102, 126, 234, 0.3)';
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.2)';
               }}
             >
-              ← Back
+              Back
             </button>
           </div>
         </div>

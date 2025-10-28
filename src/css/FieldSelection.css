@@ -1,78 +1,160 @@
-/* FieldSelection.css */
+/* Enhanced FieldSelection with glassmorphism */
 
 .field-selection {
-  background-color: rgb(255, 255, 255);
-  border-radius: 12px;
-  padding: 32px;
-  margin: 0 auto 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 40px;
+  margin: 0 auto 40px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  max-width: 900px;
+  position: relative;
+  overflow: hidden;
+}
+
+.field-selection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
 }
 
 .field-selection h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #1f2937;
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .field-selection p {
-  font-size: 16px;
-  color: #6b7280;
+  font-size: 18px;
+  color: #4a5568;
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
+  line-height: 1.6;
 }
 
 .field-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 
 .field-card {
-  padding: 20px;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  background-color: white;
+  padding: 24px;
+  border: 2px solid rgba(37, 99, 235, 0.3);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+  backdrop-filter: blur(10px);
   cursor: pointer;
   text-align: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.field-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.15), transparent);
+  transition: left 0.5s;
 }
 
 .field-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-5px) scale(1.02);
+  border-color: rgba(37, 99, 235, 0.5);
+  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
+}
+
+.field-card:hover::before {
+  left: 100%;
 }
 
 .field-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 40px;
+  margin-bottom: 12px;
+  display: block;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
 }
 
 .field-name {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
   margin: 0;
-  color: #374151;
+  color: #2d3748;
 }
 
 .field-card.selected {
-  transform: scale(1.02);
+  transform: translateY(-5px) scale(1.02);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
+  border-color: rgba(37, 99, 235, 0.7);
+  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.3);
+}
+
+.field-card.selected .field-name {
+  color: #1e40af;
+  font-weight: 700;
 }
 
 .get-started {
-  margin-top: 24px;
+  margin-top: 32px;
   text-align: center;
 }
 
 .get-started button {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
   color: white;
-  padding: 12px 32px;
-  border-radius: 8px;
+  padding: 16px 40px;
+  border-radius: 12px;
   border: none;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.get-started button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.get-started button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.5);
+}
+
+.get-started button:hover::before {
+  left: 100%;
+}
+
+.get-started button:active {
+  transform: translateY(-1px);
 }

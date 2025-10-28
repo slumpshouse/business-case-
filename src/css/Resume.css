@@ -1,4 +1,4 @@
-/* Styles for the Resume page - extracted from inline styles */
+/* Modern Resume page styles with glassmorphism and animations */
 .resume-container {
   min-height: 100vh;
   display: flex;
@@ -6,36 +6,114 @@
   align-items: center;
   padding: 24px;
   box-sizing: border-box;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
 
 .resume-card {
   width: 90vw;
   max-width: 1200px;
   max-height: 90vh;
-  border: 3px solid #222;
-  border-radius: 22px;
-  padding: 24px;
+  border: none;
+  border-radius: 24px;
+  padding: 32px;
   box-sizing: border-box;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 25px 45px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
   overflow-y: auto;
+  position: relative;
+  z-index: 1;
+  animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .resume-header {
   text-align: center;
-  font-size: 20px;
-  padding: 18px 6px;
-  border-bottom: 2px solid #222;
-  border-radius: 18px 18px 0 0;
-  margin-bottom: 12px;
+  font-size: 28px;
+  font-weight: 700;
+  padding: 24px 16px;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-bottom: 2px solid rgba(37, 99, 235, 0.3);
+  border-radius: 16px 16px 0 0;
+  margin: -32px -32px 24px -32px;
+  position: relative;
+}
+
+.resume-header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  border-radius: 2px;
 }
 
 .resume-textarea-outer {
-  border: 2px solid #222;
+  border: 2px solid rgba(37, 99, 235, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  min-height: 280px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  margin-bottom: 24px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.resume-textarea-outer:focus-within {
+  border-color: rgba(37, 99, 235, 0.6);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+  transform: translateY(-2px);
+}
+
+.resume-textarea-outer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   border-radius: 14px;
-  padding: 14px;
-  min-height: 260px;
-  background: #f7f5f5;
-  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(124, 58, 237, 0.05) 100%);
+  pointer-events: none;
 }
 
 .resume-textarea-outer textarea {
@@ -46,9 +124,16 @@
   resize: none;
   background: transparent;
   font-size: 16px;
-  font-family: inherit;
-  color: #213b70; /* dark blue for better visibility */
-  line-height: 1.5;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #2d3748;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+  transition: all 0.2s ease;
+}
+
+.resume-textarea-outer textarea:focus {
+  color: #1a202c;
 }
 
 .resume-textarea-outer textarea::placeholder {
@@ -56,11 +141,41 @@
 }
 
 .resume-tips {
-  border: 2px solid #222;
-  border-radius: 14px;
-  padding: 14px;
-  min-height: 120px;
-  background: #fff;
+  border: 2px solid rgba(6, 182, 212, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  min-height: 140px;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-tips::before {
+  content: '💡';
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+.resume-tips h3 {
+  margin-top: 0;
+  color: #065f46;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.resume-tips ul {
+  padding-left: 20px;
+  margin: 12px 0 0 0;
+}
+
+.resume-tips li {
+  margin-bottom: 8px;
+  color: #047857;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .resume-actions {

@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/JobCard.css';
 
 function JobCard({ title, company, location, salary, description, requirements }) {
+  const navigate = useNavigate();
   return (
     <div className="job-card">
       <div className="job-card-header">
@@ -33,7 +35,12 @@ function JobCard({ title, company, location, salary, description, requirements }
         )}
       </div>
 
-      <button className="apply-button">Apply Now</button>
+      <button 
+        className="apply-button"
+        onClick={() => navigate('/apply')}
+      >
+        Apply Now
+      </button>
     </div>
   );
 }

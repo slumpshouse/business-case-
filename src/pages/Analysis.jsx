@@ -6,6 +6,7 @@ function Analysis() {
   const location = useLocation();
   const navigate = useNavigate();
   const result = location.state?.result || '';
+  const resumeText = location.state?.resumeText || '';
 
   const isStructured = result && typeof result === 'object';
   const matchScore = Math.max(0, Math.min(100, Number(result.match_score) || 0));
@@ -150,12 +151,8 @@ function Analysis() {
         <div className="no-result">No analysis result found.</div>
       )}
 
-      <button className="analyze-again-btn" onClick={() => navigate('/resume')}>
-        Analyze Another Resume
-      </button>
-
-      <button className="bottom-back-button" onClick={() => navigate(-1)}>
-        ← Back
+      <button className="analyze-again-btn" onClick={() => navigate('/resume', { state: { resumeText } })}>
+        Update Resume
       </button>
     </div>
   );

@@ -8,6 +8,7 @@ import Job from './pages/Job';
 import JobsLanding from './pages/JobsLanding';
 import Login from './pages/Login';
 import Analysis from './pages/Analysis';
+import Apply from './pages/Apply';
 
 
 
@@ -19,11 +20,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/Resume" element={<Resume />} />
+          <Route path="/resume" element={<Resume />} />
           <Route path="/jobs" element={<Job />} />
           <Route path="/jobs-landing" element={<JobsLanding />} />
           <Route path="/home" element={<Home />} />
           <Route path="/analysis" element={<Analysis />} />
+          <Route path="/apply" element={<Apply />} />
         </Routes>
       </div>
     </Router>
