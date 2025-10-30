@@ -1,17 +1,23 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../App'; // Import the auth context
 import '../css/Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth(); // Get the login function from context
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Placeholder: handle login logic here
-    navigate('/home');
+    // For now, any email/password combination will work
+    if (email && password) {
+      login(); // Set the user as logged in
+      navigate('/'); // Redirect to home page
+    }
   };
 
   return (

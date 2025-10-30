@@ -75,7 +75,12 @@ const FieldSelection = () => {
             style={{
               backgroundColor: fields.find(f => f.id === selectedField)?.color || '#3b82f6'
             }}
-            onClick={() => navigate('/resume')}
+            onClick={() => navigate('/resume', { 
+              state: { 
+                selectedField: selectedField,
+                fieldName: fields.find(f => f.id === selectedField)?.name 
+              } 
+            })}
           >
             {/* Button text includes the selected field name */}
             Get Started in {fields.find(f => f.id === selectedField)?.name}
