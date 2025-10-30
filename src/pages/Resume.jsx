@@ -307,19 +307,20 @@ Give specific resume writing advice based on what they share!`
             {
               role: "user",
               content: `
-TASK: Create a personalized career roadmap by analyzing this resume against ${fieldName ? `${fieldName} field requirements` : 'target career goals'} and providing strategic guidance.
+TASK: Create a PATHWAY-FOCUSED career roadmap that shows how to leverage their existing skills to successfully transition into ${fieldName ? `the ${fieldName} field` : 'their target career'}.
 
-CONTEXT: 
-- Target Field: ${fieldName || 'General Career Advancement'}
-- Mission: Bridge the gap between current resume and ${fieldName ? fieldName : 'target field'} success
+CORE MISSION: 
+- Build on what they ALREADY HAVE, don't just focus on what they lack
+- Create clear bridges from their current skills to ${fieldName ? fieldName : 'target field'} success
+- Show them they're closer than they think by maximizing their existing strengths
 
-STRATEGIC ANALYSIS FRAMEWORK:
-1. SKILLS INVENTORY: Extract ALL skills, experiences, and capabilities mentioned in their resume
-2. SKILL MAPPING: Identify which of their existing skills can transfer to ${fieldName ? fieldName : 'target field'}
-3. LEVERAGE STRATEGY: Show HOW to position their current skills for ${fieldName ? fieldName : 'target field'} success
-4. GAP ANALYSIS: What additional skills are needed beyond their transferable ones
-5. BRIDGE BUILDING: Create pathways from their current skills to ${fieldName ? fieldName : 'target field'} requirements
-6. SUCCESS ROADMAP: Strategic plan that builds on their strengths while addressing gaps
+PATHWAY-BUILDING FRAMEWORK:
+1. FOUNDATION ASSESSMENT: What strong skills/experiences do they already possess?
+2. SKILL BRIDGE MAPPING: How can their current skills be repositioned for ${fieldName ? fieldName : 'target field'} success?
+3. STRATEGIC POSITIONING: How to present their background as an ADVANTAGE in ${fieldName ? fieldName : 'target field'}?
+4. SKILL ENHANCEMENT: What can they add to their existing foundation (not replace it)?
+5. TRANSITION STRATEGY: Step-by-step pathway using their strengths as springboards
+6. COMPETITIVE ADVANTAGE: How their unique background gives them an edge in ${fieldName ? fieldName : 'target field'}
 
 Create a personalized career roadmap as a JSON object:
 
@@ -330,13 +331,13 @@ Create a personalized career roadmap as a JSON object:
   "transferable_skills": [
     {
       "skill": string, // A skill they already have
-      "how_it_transfers": string, // How this skill applies to ${fieldName ? fieldName : 'target field'}
-      "leverage_strategy": string // Specific way to highlight/use this skill for ${fieldName ? fieldName : 'target field'} success
+      "how_it_transfers": string, // How this skill directly applies to ${fieldName ? fieldName : 'target field'} work
+      "leverage_strategy": string // Specific way to position/highlight this skill for ${fieldName ? fieldName : 'target field'} employers
     }
   ],
-  "strengths_skills": string[], // Current resume strengths that align perfectly with ${fieldName ? fieldName : 'target field'}
-  "gap_skills": string[], // Critical missing elements for ${fieldName ? fieldName : 'target field'} success
-  "why_it_matters": string, // Strategic explanation of how gaps impact their ${fieldName ? fieldName : 'career'} prospects
+  "strengths_skills": string[], // Current resume strengths that are ASSETS for ${fieldName ? fieldName : 'target field'} success
+  "gap_skills": string[], // Skills to ADD to their foundation (not replace existing skills)
+  "skill_building_path": string, // How their existing skills create a natural pathway to ${fieldName ? fieldName : 'target field'} mastery
   "immediate_actions": [
     {
       "action": string, // Specific step they should take first (resume updates, skill development, etc.)
@@ -367,19 +368,18 @@ Create a personalized career roadmap as a JSON object:
 }
 
 ${fieldName ? `
-FIELD-SPECIFIC STRATEGIC FOCUS FOR ${fieldName.toUpperCase()}:
-- Current ${fieldName} industry landscape: What employers are actually looking for RIGHT NOW
-- Skill Translation: How to reframe their existing skills in ${fieldName} terminology and context
-- Bridge Skills: Identify skills they have that are stepping stones to ${fieldName} requirements
-- Resume positioning: How to present their background to appeal to ${fieldName} hiring managers  
-- Skill prioritization: Which missing skills would have the highest impact on ${fieldName} career success
-- Experience building: Practical ways to gain ${fieldName} experience (projects, volunteering, freelancing, side projects, open source)
-- Career pathway: Realistic progression steps within ${fieldName} based on their current level
-- Market insights: ${fieldName} salary expectations, growth opportunities, and industry trends
-- Competitive advantage: How to stand out in the ${fieldName} job market given their unique background
+PATHWAY-FOCUSED STRATEGY FOR ${fieldName.toUpperCase()}:
+- EXISTING SKILL AMPLIFICATION: How their current skills are already ${fieldName}-relevant (even if they don't realize it)
+- SKILL TRANSLATION: Reframe their background using ${fieldName} language and contexts
+- NATURAL PROGRESSION: Show how their experience creates logical stepping stones into ${fieldName}
+- UNIQUE VALUE PROPOSITION: Position their diverse background as a ${fieldName} competitive advantage
+- BRIDGE SKILLS: Identify which of their skills serve as perfect bridges to ${fieldName} mastery
+- ENHANCEMENT STRATEGY: What to add to their existing foundation (not replace it) for ${fieldName} success
+- TRANSITION CONFIDENCE: Demonstrate they have more ${fieldName}-relevant experience than they think
+- PATHWAY ACCELERATION: How to fast-track using their existing foundation
 
-CRITICAL: Show them how their EXISTING skills are valuable in ${fieldName}. Don't just focus on what they're missing - demonstrate how what they already know can be their competitive advantage. For each learning recommendation, include both theoretical learning AND practical experience opportunities.
-` : 'PROVIDE ACTIONABLE GUIDANCE: Focus on concrete steps they can take to advance their career goals.'}
+MINDSET: Their background isn't a limitation - it's their secret weapon in ${fieldName}. Show them the direct pathway from where they are to where they want to be, using what they already have as the foundation.
+` : 'PATHWAY FOCUS: Show them how their current skills create natural bridges to their career goals.'}
 
 RESUME CONTENT TO ANALYZE:
 ${text}

@@ -129,9 +129,14 @@ function Analysis() {
               </div>
             </div>
 
-            {/* Skills you need to develop */}
+            {/* Skills to enhance your foundation */}
             <div className="skills-section">
-              <h3>Skills you need to develop</h3>
+              <h3>🔧 Skills to add to your foundation</h3>
+              {result.skill_building_path && (
+                <div className="pathway-explanation">
+                  <p className="pathway-text">{result.skill_building_path}</p>
+                </div>
+              )}
               <div className="skills-development">
                 {(result.gap_skills || []).map((skill, i) => {
                   const totalSkills = result.gap_skills.length;
@@ -141,15 +146,11 @@ function Analysis() {
                   return (
                     <div key={i} className="skill-card">
                       <div className="skill-header">
-                        <div className="skill-icon">📚</div>
+                        <div className="skill-icon">🎯</div>
                         <div className={`skill-priority ${priorityClass}`}>{priority}</div>
                       </div>
                       <h4>{skill}</h4>
-                      <p>{result.why_it_matters || 'Essential for career growth and job requirements.'}</p>
-                      <div className="skill-actions">
-                        <button className="action-btn">Online Course</button>
-                        <button className="action-btn">Practice Projects</button>
-                      </div>
+                      <p>Build on your existing skills to master this area and accelerate your {fieldName || 'career'} transition.</p>
                     </div>
                   );
                 })}
@@ -214,82 +215,6 @@ function Analysis() {
                 ))}
               </div>
             </div>
-
-            {/* Current Level & Next Steps */}
-            {(result.current_level || result.next_career_steps) && (
-              <div className="career-insights-section">
-                <h3>Career Insights</h3>
-                <div className="career-info">
-                  {result.current_level && (
-                    <div className="current-level">
-                      <span className="level-label">Current Level:</span>
-                      <span className="level-badge">{result.current_level}</span>
-                    </div>
-                  )}
-                  {result.next_career_steps && result.next_career_steps.length > 0 && (
-                    <div className="next-steps">
-                      <h4>Recommended Next Positions:</h4>
-                      <div className="next-steps-grid">
-                        {result.next_career_steps.map((step, i) => (
-                          <div key={i} className="next-step-card">
-                            <span className="step-icon">🎯</span>
-                            {step}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Career Readiness & Immediate Actions */}
-            {result.career_readiness && (
-              <div className="career-readiness-section">
-                <h3>Career Readiness Assessment</h3>
-                <div className="readiness-status">
-                  <span className={`readiness-badge ${result.career_readiness.toLowerCase().replace(/\s+/g, '-')}`}>
-                    {result.career_readiness}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* Immediate Actions */}
-            {result.immediate_actions && result.immediate_actions.length > 0 && (
-              <div className="immediate-actions-section">
-                <h3>🚀 Your Action Plan</h3>
-                <div className="actions-list">
-                  {result.immediate_actions.map((action, i) => (
-                    <div key={i} className="action-item">
-                      <div className="action-header">
-                        <span className="action-title">{action.action}</span>
-                        <span className={`timeline-badge ${action.timeline?.toLowerCase().replace(/\s+/g, '-')}`}>
-                          {action.timeline}
-                        </span>
-                      </div>
-                      <p className="action-impact">{action.impact}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Resume Optimization */}
-            {result.resume_optimization && result.resume_optimization.length > 0 && (
-              <div className="resume-optimization-section">
-                <h3>📝 Resume Optimization</h3>
-                <div className="optimization-list">
-                  {result.resume_optimization.map((opt, i) => (
-                    <div key={i} className="optimization-item">
-                      <div className="opt-section">{opt.section}</div>
-                      <div className="opt-suggestion">{opt.suggestion}</div>
-                      <div className="opt-reason">{opt.reason}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* Field-Specific Advice */}
             {result.field_specific_advice && (

@@ -65,14 +65,25 @@
   font-size: 28px;
   font-weight: 700;
   padding: 24px 16px;
-  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #1e40af;
   border-bottom: 2px solid rgba(37, 99, 235, 0.3);
   border-radius: 16px 16px 0 0;
   margin: -32px -32px 24px -32px;
   position: relative;
+  /* Fallback for gradient text */
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Ensure text is visible in browsers that don't support gradient text */
+@supports not (background-clip: text) {
+  .resume-header {
+    color: #1e40af !important;
+    background: none !important;
+    -webkit-text-fill-color: #1e40af !important;
+  }
 }
 
 .resume-header::after {

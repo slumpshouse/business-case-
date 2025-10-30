@@ -4,8 +4,11 @@
 An interactive React + Vite web app for discovering job opportunities, building resumes, and tracking career progress.
 
 ## Problem Statement
-Help users find relevant jobs and improve their professional profile with a guided, easy-to-use platform.
-
+Many students and job seekers struggle with:
+Resume-Job Mismatch: Not knowing how to tailor resumes to specific job descriptions
+Skills Gap Identification: Understanding what skills they lack for target positions
+Training Path Confusion: Not knowing what to learn next to advance their career
+Market Awareness: Limited understanding of current job market demands and trends
 ## Target User
 Job seekers and career builders who want personalized recommendations and progress tracking.
 
