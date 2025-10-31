@@ -138,10 +138,14 @@ function Analysis() {
                 </div>
               )}
               <div className="skills-development">
-                {(result.gap_skills || []).map((skill, i) => {
+                {(result.gap_skills || []).map((skillData, i) => {
                   const totalSkills = result.gap_skills.length;
                   const priority = getPriority(i, totalSkills);
                   const priorityClass = getPriorityClass(priority);
+                  
+                  // Handle both old format (string) and new format (object)
+                  const isDetailedSkill = typeof skillData === 'object' && skillData.skill;
+                  const skillName = isDetailedSkill ? skillData.skill : skillData;
                   
                   return (
                     <div key={i} className="skill-card">
@@ -149,8 +153,29 @@ function Analysis() {
                         <div className="skill-icon">🎯</div>
                         <div className={`skill-priority ${priorityClass}`}>{priority}</div>
                       </div>
-                      <h4>{skill}</h4>
-                      <p>Build on your existing skills to master this area and accelerate your {fieldName || 'career'} transition.</p>
+                      <h4>{skillName}</h4>
+                      
+                      {isDetailedSkill ? (
+                        <div className="skill-details">
+                          {skillData.why_important && (
+                            <div className="skill-importance">
+                              <strong>Why it matters:</strong> {skillData.why_important}
+                            </div>
+                          )}
+                          {skillData.connection_to_current && (
+                            <div className="skill-connection">
+                              <strong>Builds on your experience:</strong> {skillData.connection_to_current}
+                            </div>
+                          )}
+                          {skillData.how_to_build && (
+                            <div className="skill-approach">
+                              <strong>How to develop:</strong> {skillData.how_to_build}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <p>Build on your existing skills to master this area and accelerate your {fieldName || 'career'} transition.</p>
+                      )}
                     </div>
                   );
                 })}

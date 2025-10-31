@@ -56,17 +56,17 @@ function Resume() {
 
       // Different prompts based on text length for more relevant feedback
       if (resumeText.length < 20) {
-        // Very short text - give encouragement and immediate tips
-        systemMessage = "You are a resume writing coach providing instant feedback. Give 2-3 encouraging, actionable tips in simple language.";
-        prompt = `The user just started typing: "${resumeText}". Give encouraging feedback and immediate next steps to help them build their resume${fieldName ? ` for the ${fieldName} field` : ''}.`;
+        // Very short text - give specific structure guidance
+        systemMessage = `You are an expert resume coach. Give 3 specific, actionable tips for getting started. Each tip should be under 10 words and tell them exactly what to type next.${fieldName ? ` Focus on ${fieldName} field requirements.` : ''}`;
+        prompt = `User just started: "${resumeText}". Give 3 specific next steps for what to type/add next in their resume.`;
       } else if (resumeText.length < 100) {
-        // Short text - give structure and content guidance
-        systemMessage = "You are a resume writing assistant. Provide 3 brief, specific suggestions to help expand and improve what they've started. Keep suggestions under 12 words each.";
-        prompt = `User is building their resume${fieldName ? ` for ${fieldName}` : ''} and has written: "${resumeText}". Give specific suggestions for what to add or improve next.`;
+        // Short text - give detailed content and structure guidance
+        systemMessage = `You are a resume optimization expert. Analyze what they have and give 3 specific suggestions for improvement. Be concrete about what to add, change, or emphasize.${fieldName ? ` Tailor advice for ${fieldName} field success.` : ''}`;
+        prompt = `Resume start: "${resumeText}". Give 3 specific suggestions: what sections to add next, how to improve current content, and what ${fieldName ? fieldName + ' employers' : 'employers'} want to see.`;
       } else {
-        // Longer text - comprehensive analysis
-        systemMessage = "You are a resume writing assistant. Provide 3-4 brief, actionable suggestions to improve the resume. Keep each suggestion under 15 words. Focus on content, structure, and impact.";
-        prompt = `Analyze this resume draft${fieldName ? ` for the ${fieldName} field` : ''} and provide quick improvement suggestions:\n\n${resumeText}`;
+        // Longer text - comprehensive analysis with specific improvements
+        systemMessage = `You are a senior hiring manager and resume expert. Analyze this resume and give 4 specific, actionable improvements. Focus on: missing sections, weak language, formatting issues, and ${fieldName ? fieldName + ' industry' : 'industry'} requirements. Be specific about what to change.`;
+        prompt = `Analyze this resume for ${fieldName ? `${fieldName} positions` : 'career advancement'}. Give 4 specific improvements with examples of what to add/change:\n\n${resumeText}\n\nFocus on: 1) Missing critical sections 2) Weak bullet points that need metrics 3) Skills gaps for ${fieldName || 'target roles'} 4) Formatting/structure issues`;
       }
 
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -108,26 +108,56 @@ function Resume() {
     } catch (error) {
       console.error("AI suggestion error:", error);
       if (resumeText.length < 20) {
-        setAiSuggestions(["Great start! Keep writing - add your name and contact info next."]);
+        setAiSuggestions([
+          "Add your full name and professional title at the top",
+          "Include phone number, email, and LinkedIn profile", 
+          "Start with a 2-3 line professional summary next"
+        ]);
+      } else if (resumeText.length < 100) {
+        setAiSuggestions([
+          "Add specific achievements with numbers and metrics",
+          `Include ${fieldName ? fieldName + '-specific' : 'relevant'} skills section`,
+          "Use action verbs like 'Led', 'Increased', 'Developed'",
+          "Add education and certification details"
+        ]);
       } else {
-        setAiSuggestions(["Keep writing! Add more specific achievements and metrics."]);
+        setAiSuggestions([
+          "Quantify achievements with specific numbers and percentages",
+          "Add more relevant keywords for applicant tracking systems",
+          `Highlight ${fieldName ? fieldName : 'industry'}-specific skills and technologies`,
+          "Include projects or portfolio links if applicable"
+        ]);
       }
     }
     setAiLoading(false);
   };
 
-  // Initialize AI chat with welcome message
+  // Initialize AI chat with personalized welcome message
   useEffect(() => {
-    if (chatMessages.length === 0 && !fieldName) {
+    if (chatMessages.length === 0) {
+      let welcomeMessage;
+      
+      if (!fieldName) {
+        welcomeMessage = `Hi! I'm your personal career coach. I'll help you craft a winning resume by understanding your unique background. What field are you looking to break into or advance in?`;
+      } else {
+        // Personalized questions based on field
+        const fieldQuestions = {
+          'Technology': `Perfect! ${fieldName} is exciting. Are you focusing on frontend, backend, mobile development, or something else? And what's your current experience level?`,
+          'Healthcare': `Excellent choice! Are you in clinical care, administration, research, or another healthcare area? What's driving your interest in this field?`,
+          'Finance': `Great field! Are you interested in investment banking, financial planning, accounting, or fintech? What's your background with numbers and analysis?`,
+          'Marketing': `Love it! Are you drawn to digital marketing, brand strategy, content creation, or analytics? What marketing experiences have you had?`,
+          'Design': `Creative path! Are you focusing on UX/UI, graphic design, product design, or something else? Do you have a portfolio started?`,
+          'Education': `Meaningful work! Are you interested in K-12, higher education, training, or curriculum development? What subjects excite you most?`,
+          'Business': `Smart choice! Are you looking at management, consulting, operations, or entrepreneurship? What size companies interest you?`
+        };
+        
+        welcomeMessage = fieldQuestions[fieldName] || 
+          `Excellent! I see you're targeting ${fieldName}. What specific role interests you most? And tell me - what experience do you already have that could transfer to this field?`;
+      }
+      
       setChatMessages([{
         sender: 'ai',
-        text: `Hi! I'm your AI resume coach. I can help you create a tailored resume that stands out. To get started, what type of role are you targeting?`,
-        timestamp: Date.now()
-      }]);
-    } else if (chatMessages.length === 0 && fieldName) {
-      setChatMessages([{
-        sender: 'ai', 
-        text: `Great! I see you're interested in ${fieldName}. I can help you create a ${fieldName} resume that highlights your relevant skills and experience. What specific role within ${fieldName} are you targeting?`,
+        text: welcomeMessage,
         timestamp: Date.now()
       }]);
     }
@@ -170,27 +200,35 @@ function Resume() {
           messages: [
             {
               role: "system",
-              content: `You are a friendly career coach chatting about their resume. Keep messages SHORT and give SPECIFIC resume suggestions based on what they tell you.
+              content: `You are a personalized career coach having a conversation about their ${fieldName || 'career'} goals and resume. Ask thoughtful follow-up questions and give tailored advice.
 
-RULES:
-- Max 1-2 sentences per response
-- When they share info, give immediate resume advice
-- Use casual, encouraging tone
-- Give actionable resume tips like "Add that to your Skills section!" or "Put those numbers in your Experience!"
+CONVERSATION STRATEGY:
+- Ask 1 personalized question per response based on what they share
+- Give specific resume advice tied to their field and experience
+- Keep responses to 1-2 sentences max
+- Build on previous conversation context
+
+PERSONALIZED QUESTION TYPES:
+- Experience depth: "What was your biggest achievement in that role?"
+- Skill specifics: "Which ${fieldName || 'industry'} tools/technologies do you know?"
+- Career goals: "What type of ${fieldName || 'company'} environment excites you most?"
+- Challenges: "What's been your toughest professional challenge?"
+- Growth areas: "What ${fieldName || 'skills'} do you want to develop next?"
+- Impact stories: "Can you quantify that success with numbers?"
 
 Context:
 - Field: ${fieldName || 'Not specified'}
-- Resume: ${text ? 'In progress' : 'Not started'}
-- Goals: ${JSON.stringify(userGoals)}
+- Resume Length: ${text.length} characters
+- Current Goals: ${JSON.stringify(userGoals)}
 
 EXAMPLES:
-User: "I'm a software engineer with 5 years experience"
-You: "Great! Lead with 'Senior Software Engineer' and highlight your tech stack prominently."
+User: "I managed a team of 5 developers"
+You: "Impressive! What was your team's biggest project success? We'll want to highlight your leadership impact."
 
-User: "I increased sales by 30%"
-You: "Perfect! Put '30% sales increase' right at the top of your achievements section."
+User: "I worked in customer service"
+You: "Great foundation! Did you handle escalations or improve any processes? Those problem-solving skills translate well to ${fieldName || 'many fields'}."
 
-Give specific resume writing advice based on what they share!`
+Ask personalized questions that help uncover their best resume content!`
             },
             ...chatMessages.map(msg => ({
               role: msg.sender === 'user' ? 'user' : 'assistant',
@@ -218,42 +256,70 @@ Give specific resume writing advice based on what they share!`
 
         setChatMessages(prev => [...prev, aiMessage]);
 
-        // Extract user goals and info from conversation for better context
+        // Enhanced user information extraction for personalization
         const userInput = chatInput.toLowerCase();
         
-        // Extract career information
-        if (userInput.includes('role') || userInput.includes('position') || userInput.includes('job')) {
+        // Smart career information extraction
+        if (userInput.includes('manager') || userInput.includes('director') || userInput.includes('lead') || userInput.includes('senior')) {
+          setUserGoals(prev => ({ ...prev, targetRole: chatInput, experienceLevel: 'Senior' }));
+        } else if (userInput.includes('junior') || userInput.includes('entry') || userInput.includes('new grad') || userInput.includes('first job')) {
+          setUserGoals(prev => ({ ...prev, experienceLevel: 'Entry Level' }));
+        } else if (userInput.includes('role') || userInput.includes('position') || userInput.includes('job')) {
           setUserGoals(prev => ({ ...prev, targetRole: chatInput }));
         }
-        if (userInput.includes('industry') || userInput.includes('company') || userInput.includes('field')) {
+        
+        if (userInput.includes('startup') || userInput.includes('corporate') || userInput.includes('nonprofit') || userInput.includes('government')) {
           setUserGoals(prev => ({ ...prev, industry: chatInput }));
         }
-        if (userInput.includes('year') || userInput.includes('experience') || userInput.includes('worked')) {
-          setUserGoals(prev => ({ ...prev, experienceLevel: chatInput }));
+        
+        // Extract specific skills and technologies
+        const techKeywords = ['python', 'javascript', 'react', 'sql', 'aws', 'figma', 'excel', 'salesforce', 'tableau'];
+        const mentionedTech = techKeywords.filter(tech => userInput.includes(tech));
+        if (mentionedTech.length > 0) {
+          setUserGoals(prev => ({ ...prev, skills: [...(prev.skills || []), ...mentionedTech] }));
         }
-        if (userInput.includes('goal') || userInput.includes('want') || userInput.includes('looking')) {
-          setUserGoals(prev => ({ ...prev, careerGoals: chatInput }));
+        
+        // Extract quantifiable achievements
+        const hasNumbers = /\d+/.test(userInput);
+        const hasPercentage = userInput.includes('%');
+        const hasImpact = userInput.includes('increased') || userInput.includes('improved') || userInput.includes('reduced') || userInput.includes('saved');
+        
+        if (hasNumbers && (hasPercentage || hasImpact)) {
+          setUserGoals(prev => ({ ...prev, achievements: [...(prev.achievements || []), chatInput] }));
         }
-
-        // Add resume suggestions based on conversation
-        if (chatMessages.length > 2 && (
-          userInput.includes('increased') || 
-          userInput.includes('improved') || 
-          userInput.includes('managed') || 
-          userInput.includes('led') ||
-          userInput.includes('%') ||
-          userInput.includes('million') ||
-          userInput.includes('thousand')
-        )) {
-          // They shared an achievement - suggest adding it to resume
-          setTimeout(() => {
+        
+        // Generate personalized follow-up questions after a delay
+        setTimeout(() => {
+          const messageCount = chatMessages.length;
+          let followUpMessage = null;
+          
+          // Smart follow-up questions based on context
+          if (hasNumbers && hasImpact) {
+            followUpMessage = '💡 Perfect! Quantified achievements like that are resume gold. Any other measurable successes?';
+          } else if (userInput.includes('managed') || userInput.includes('led') || userInput.includes('team')) {
+            followUpMessage = `Leadership experience is valuable! How big was your team and what results did you achieve?`;
+          } else if (mentionedTech.length > 0) {
+            followUpMessage = `Great tech skills! What's your biggest project using ${mentionedTech[0]}? Specific examples shine on resumes.`;
+          } else if (userInput.includes('challenge') || userInput.includes('problem')) {
+            followUpMessage = `Problem-solving stories are powerful! How did you overcome that and what was the impact?`;
+          } else if (messageCount === 2 && !userGoals.experienceLevel) {
+            followUpMessage = `What's your experience level in ${fieldName || 'this field'}? This helps me give better advice.`;
+          } else if (messageCount === 4 && !(userGoals.achievements?.length > 0)) {
+            followUpMessage = `Tell me about a time you made a real difference - saved money, improved a process, helped teammates?`;
+          } else if (messageCount > 5 && text.length < 100) {
+            followUpMessage = `You're sharing great stories! Ready to start building your actual resume? I'll guide you step by step.`;
+          }
+          
+          if (followUpMessage) {
             setChatMessages(prev => [...prev, {
               sender: 'ai',
-              text: '💡 That sounds like a great achievement for your resume! Make sure to highlight those specific results.',
+              text: followUpMessage,
               timestamp: Date.now()
             }]);
-          }, 2000);
-        }
+          }
+        }, 1500);
+      } else {
+        throw new Error(`API error: ${response.status}`);
       }
     } catch (error) {
       console.error("Chat error:", error);
@@ -336,7 +402,14 @@ Create a personalized career roadmap as a JSON object:
     }
   ],
   "strengths_skills": string[], // Current resume strengths that are ASSETS for ${fieldName ? fieldName : 'target field'} success
-  "gap_skills": string[], // Skills to ADD to their foundation (not replace existing skills)
+  "gap_skills": [
+    {
+      "skill": string, // Skill name to develop
+      "why_important": string, // Why this skill is crucial for ${fieldName ? fieldName : 'target field'} success
+      "how_to_build": string, // How to develop this skill using their existing foundation
+      "connection_to_current": string // How this connects to their current skills/experience
+    }
+  ],
   "skill_building_path": string, // How their existing skills create a natural pathway to ${fieldName ? fieldName : 'target field'} mastery
   "immediate_actions": [
     {
